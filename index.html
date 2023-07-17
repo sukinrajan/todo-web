@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Web</title>
+    <link rel="stylesheet" type="text/css" href="todo.css">
+</head>
+<body>
+    <input type="number" id="idInput" placeholder="Enter ID">
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <label for="completedInput">Completed: </label>
+    <input type="checkbox" id="completedInput">
+    <button onclick="create()">Add</button>
+    <button onclick="read()">View All</button>
+    <select id="sortSelect" onchange="sortTodoList()">
+        <option value="asc">Ascending</option>
+        <option value="des">Descending</option>
+    </select>
+    <label for="completedFilter">Filter by Completed:</label>
+<select id="completedFilter" onchange="filterTodoList()">
+    <option value="all">All</option>
+    <option value="true">Completed</option>
+    <option value="false">Not Completed</option>
+</select>
+
+    <ul id="todoUList">Todo List</ul>
+    <script src="todo.js"></script>
+</body>
+</html>
