@@ -22,48 +22,25 @@ function create() {
     }
 }
 
- 
 function read() {
     var ul = document.getElementById("todoUList");
     ul.innerHTML = "";
 
-    var filteredList = filterTodoList();
-  
-    filteredList.forEach(todoItem => {
+    todoList.forEach(todoItem => {
         var li = document.createElement("li");
         li.innerText = `ID: ${todoItem.id}, Task: ${todoItem.task}, Completed: ${todoItem.completed}`;
-
+        
         var deleteButton = document.createElement("button");
         deleteButton.innerText = "Delete";
         deleteButton.addEventListener("click", function () {
             deleteTodoItem(todoItem.id);
             ul.removeChild(li);
         });
-
         li.appendChild(deleteButton);
         ul.appendChild(li);
     });
-}
-
-// function read() {
-//     var ul = document.getElementById("todoUList");
-//     ul.innerHTML = "";
-
-//     todoList.forEach(todoItem => {
-//         var li = document.createElement("li");
-//         li.innerText = `ID: ${todoItem.id}, Task: ${todoItem.task}, Completed: ${todoItem.completed}`;
-        
-//         var deleteButton = document.createElement("button");
-//         deleteButton.innerText = "Delete";
-//         deleteButton.addEventListener("click", function () {
-//             deleteTodoItem(todoItem.id);
-//             ul.removeChild(li);
-//         });
-//         li.appendChild(deleteButton);
-//         ul.appendChild(li);
-//     });
     
-// }
+}
 
 
 function deleteTodoItem(id) {
@@ -93,10 +70,29 @@ function filterTodoList() {
     var filterSelect = document.getElementById("completedFilter");
     var filterValue = filterSelect.value;
 
+    var ul = document.getElementById("todoUList");
+    ul.innerHTML = ""; 
+
     if (filterValue === "all") {
-        return todoList;
+        read();
     } else {
         var completedStatus = filterValue === "true";
-        return todoList.filter(todoItem => todoItem.completed === completedStatus);
+        var filteredList = todoList.filter(todoItem => todoItem.completed === completedStatus);
+        filteredList.forEach(todoItem => {
+            var li = document.createElement("li");
+            li.innerText = `ID: ${todoItem.id}, Task: ${todoItem.task}, Completed: ${todoItem.completed}`;
+
+            var deleteButton = document.createElement("button");
+            deleteButton.innerText = "Delete";
+            deleteButton.addEventListener("click", function () {
+                deleteTodoItem(todoItem.id);
+                ul.removeChild(li);
+            });
+            li.appendChild(deleteButton);
+            ul.appendChild(li);
+        });
     }
 }
+
+
+
