@@ -10,27 +10,33 @@
 
 <body>
 
+<div>
+    <label for="taskInput">Task:</label>
+    <input type="text" id="taskInput" />
+    <button onclick="create()">Add</button>
+</div><br>
+<div>
+    <label for="searchInput">Search Task:</label>
+    <input type="text" id="searchInput" />
+    <button onclick="search()">Search</button>
+</div><br>
+<div>
+    <label for="sortSelect">Sort by ID:</label>
     <select id="sortSelect" onchange="sortTodoList()">
         <option value="asc">Ascending</option>
         <option value="des">Descending</option>
     </select>
-    <label for="completedFilter">Filter by Completed:</label>
+</div><br>
+<div>
+    <label for="completedFilter">Filter by Status:</label>
     <select id="completedFilter" onchange="filterTodoList()">
         <option value="all">All</option>
         <option value="true">Completed</option>
         <option value="false">Not Completed</option>
     </select>
-    <input type="text" id="searchInput" placeholder="Enter a task">
-    <button onclick="search()">Search</button><br><br>
+</div><br>
+<ul id="todoUList"></ul>
 
-    <input type="number" id="idInput" placeholder="Enter ID">
-    <input type="text" id="taskInput" placeholder="Enter a task">
-    <label for="completedInput">Completed: </label>
-    <input type="checkbox" id="completedInput">
-    <button onclick="create()">Add</button>
-    <button onclick="read()">View All</button>
-   
-    <ul id="todoUList">Todo List</ul>
     <script src="todo.js"></script>
 </body>
 

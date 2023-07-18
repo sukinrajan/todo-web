@@ -1,41 +1,46 @@
 var todoList = [];
 
-function create() {
-    var id = document.getElementById("idInput").value;
-    var task = document.getElementById("taskInput").value;
-    var completed = document.getElementById("completedInput").checked;
+var idStartValue = 1;
+var idStartValue = 1;
 
-    if (id && task !== "") {
+function create() {
+    var task = document.getElementById("taskInput").value;
+    if (task !== "") {
+      
+        var id = idStartValue++;
+        var completed = false;
+
         var todoItem = {
             id: id,
             task: task,
             completed: completed
         };
 
-        var existingItem = todoList.find(item => item.id === id);
-        if (existingItem) {
-            existingItem.task = task;
-            existingItem.completed = completed;
-        } else {
-            todoList.push(todoItem);
-        }
-
-        //to clear the old given values
-        idInput.value = "";
-        taskInput.value = "";
-        completedInput.checked = false;
+        todoList.push(todoItem);
+        read();
+        document.getElementById("taskInput").value = "";
     }
 }
+
 
 function read(filteredList) {
     var ul = document.getElementById("todoUList");
     ul.innerHTML = "";
 
-    var listToDisplay = filteredList || todoList; // Use filteredList if !null, else use todoList
+    var listToDisplay = filteredList || todoList;
 
     listToDisplay.forEach(todoItem => {
         var li = document.createElement("li");
-        li.innerText = `ID: ${todoItem.id}, Task: ${todoItem.task}, Completed: ${todoItem.completed}`;
+
+        var checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = todoItem.completed;
+        checkbox.addEventListener("change", function () {
+            todoItem.completed = this.checked;
+        });
+
+        var span = document.createElement("span");
+        span.innerText = `ID: ${todoItem.id}, Task: ${todoItem.task}`;
 
         var editButton = document.createElement("button");
         editButton.innerText = "Edit";
@@ -49,8 +54,12 @@ function read(filteredList) {
             deleteTodoItem(todoItem.id);
             li.remove();
         });
-        li.appendChild(deleteButton);
+
+        li.appendChild(checkbox);
+        li.appendChild(span);
         li.appendChild(editButton);
+        li.appendChild(deleteButton);
+
         ul.appendChild(li);
     });
 }
@@ -92,20 +101,35 @@ function filterTodoList() {
 
 function search() {
     var searchTask = document.getElementById("searchInput");
-    var searchValue = searchTask.value
-    var searchedList = todoList.filter(todoItem => todoItem.task === searchValue);
+    var searchValue = searchTask.value;
+    //if  todoItem.task == searchvalue search only correct task value but includes search like a % operator
+    var searchedList = todoList.filter(todoItem => todoItem.task.includes(searchValue));
     read(searchedList);
 }
 
 function editTodoItem(id) {
     var editItem = todoList.find(todoItem => todoItem.id === id);
     if (editItem) {
-        var idInput = document.getElementById("idInput");
         var taskInput = document.getElementById("taskInput");
-        var completedInput = document.getElementById("completedInput");
 
-        idInput.value = editItem.id;
         taskInput.value = editItem.task;
-        completedInput.checked = editItem.completed;
+        taskInput.addEventListener("change", function () {
+            var editedTask = taskInput.value;
+            if (editedTask !== "") {
+                editItem.task = editedTask;
+                read();
+                document.getElementById("taskInput").value = "";
+            } else {
+                alert("Task cannot be empty");
+            }
+        });
+    } else {
+        alert("Edit Didn't not work.");
     }
 }
+
+// function generateUniqueId() {
+//     return Math.random().toString(36).substring(2, 9);
+// }
+
+
